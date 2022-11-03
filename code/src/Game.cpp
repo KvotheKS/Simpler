@@ -111,8 +111,6 @@ Game& Game::GetInstance(const char* Title, int width, int height)
 void Game::Run()
 {
     InputManager& controller = InputManager::GetInstance();
-    luaL_dofile(LuaInitializer::L, "./src/GameObject.lua");
-    luaL_dofile(LuaInitializer::L, "./src/ObjectArray.lua");
     this->state->Start();
     while(!this->state->QuitRequested())
     {

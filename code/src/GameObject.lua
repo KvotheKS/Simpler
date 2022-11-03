@@ -2,6 +2,7 @@ GameObject = {
     components = {}, dead = false, started = false
 }
 
+
 GameObject = setmetatable(GameObject,
     {
         __shl = function(tbl, obj)

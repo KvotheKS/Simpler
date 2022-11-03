@@ -3,7 +3,7 @@ RMDIR = rm -rdf
 RM = rm -f
 
 DEP_FLAGS = -M -MT $@ -MT $(BIN_PATH)/$(*F).o -MP -MF $@
-LIBS = -Llib -lSDL2main -lSDL2 -llibSDL2_image -llibSDL2_mixer -lm
+LIBS = -Llib -lSDL2main -lSDL2 -llibSDL2_image -llibSDL2_mixer -lm -L./include/lua -l:liblua54.a
 
 INC_PATHS = -I$(INC_PATH) $(addprefix -I,$(SDL_INC_PATH))
 

@@ -1,12 +1,12 @@
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
 #include "../include/Resources.hpp"
-#include "../include/Camera.hpp"
+//#include "../include/Camera.hpp"
 #include <cmath>
 
 ///////////////////////////////////////////////// Game Sprites ///////////////////////////////////////////////
 
-Sprite::Sprite() : Component()
+SpriteInfo::SpriteInfo()
 {
     this->texture = nullptr;
     this->width = 0;
@@ -16,8 +16,7 @@ Sprite::Sprite() : Component()
     this->angleDeg = 0.0f;
 }
 
-Sprite::Sprite(GameObject& associated, const std::string& file)
- : Component(associated)
+SpriteInfo::SpriteInfo(const std::string& file)
 {
     this->texture = nullptr;
     this->width = 0;
@@ -27,12 +26,12 @@ Sprite::Sprite(GameObject& associated, const std::string& file)
     Open(file);
 }
 
-Sprite::~Sprite()
+SpriteInfo::~SpriteInfo()
 {
     this->texture = nullptr;
 }
 
-void Sprite::Open(const std::string& file, int x, int y, int w, int h)
+void SpriteInfo::Open(const std::string& file, int x, int y, int w, int h)
 {
     Open(file);
     
@@ -42,7 +41,7 @@ void Sprite::Open(const std::string& file, int x, int y, int w, int h)
     SetClip(x,y,w,h);
 }
 
-void Sprite::Open(const std::string& file)
+void SpriteInfo::Open(const std::string& file)
 {
     this->texture = Resources::GetImage(file);
 
@@ -54,17 +53,16 @@ void Sprite::Open(const std::string& file)
     SetClip(0,0,this->width, this->height);
 }
 
-void Sprite::SetClip(int x, int y, int w, int h)
+void SpriteInfo::SetClip(int x, int y, int w, int h)
 {
     this->clipRect = {
         x, y, w, h
     };
 }
 
-void Sprite::Update(float dt) {}
-
-void Sprite::Render()
+void SpriteInfo::Print()
 {
+    /*
     SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
     const Vec2 cPos = Camera::pos;
     const Rect& wrp = this->associated->box;
@@ -77,12 +75,12 @@ void Sprite::Render()
     };
 
     SDL_RenderCopyEx(renderer, this->texture, &this->clipRect, 
-    &dst, this->angleDeg, nullptr, SDL_FLIP_NONE);
+    &dst, this->angleDeg, nullptr, SDL_FLIP_NONE);*/
 }
 
-void Sprite::Render(float x, float y)
+void SpriteInfo::Print(float x, float y)
 {
-    SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
+    /*SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
     
     SDL_Rect dst = {
         (int)x,
@@ -91,13 +89,12 @@ void Sprite::Render(float x, float y)
         this->clipRect.h
     };
 
-    SDL_RenderCopy(renderer, this->texture, &this->clipRect, &dst);
+    SDL_RenderCopy(renderer, this->texture, &this->clipRect, &dst);*/
 }
 
-void Sprite::SetScale(float scaleX, float scaleY) 
+void SpriteInfo::SetScale(float scaleX, float scaleY) 
 { this->scale = Vec2{scaleX, scaleY};}
-int Sprite::GetWidth(){ return this->width*this->scale.x; }
-int Sprite::GetHeight(){ return this->height*this->scale.y; }
-Vec2 Sprite::GetScale(){ return this->scale; }
-bool Sprite::IsOpen(){ return this->texture != nullptr; }
-bool Sprite::Is(const std::string& type) { return type == "Sprite"; }
+int SpriteInfo::GetWidth(){ return this->width*this->scale.x; }
+int SpriteInfo::GetHeight(){ return this->height*this->scale.y; }
+Vec2 SpriteInfo::GetScale(){ return this->scale; }
+bool SpriteInfo::IsOpen(){ return this->texture != nullptr; }

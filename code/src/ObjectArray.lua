@@ -1,49 +1,67 @@
-ObjectArray = setmetatable({}, {})
+ObjectArray = setmetatable({},
+    {
+        __shl = function(tbl, obj)
+            tbl[#tbl+1] = obj
+            return tbl
+        end,
 
-function ClearState()
-    cnt = #ObjectArray
+        __sub = function(tbl, obj)
+            cnt = #tbl
+            for i = 1, cnt do
+                if obj == tbl[i] then
+                    table.remove(tbl, i)
+                    return tbl
+                end
+            end
+            return tbl
+        end
+    }
+)
+
+function ObjectArray:ClearState()
+    local cnt = #self
     for i = 1, cnt do
-        ObjectArray[i] = nil
+        self[i] = nil
     end
 end
 
-function UpdateGameObjects(dt)
-    cnt = #ObjectArray
+function ObjectArray:UpdateGameObjects(dt)
+    local cnt = #self
     for i = 1, cnt do 
-        ObjectArray[i]:Update(dt) 
-        ObjectArray[i]:UpdateComponents(dt)
+        self[i]:Update(dt) 
+        self[i]:UpdateComponents(dt)
     end
 end
 
-function RenderGameObjects()
-    cnt = #ObjectArray
+function ObjectArray:RenderGameObjects()
+    local cnt = #self
     for i = 1, cnt do 
-        ObjectArray[i]:Render() 
-        ObjectArray[i]:RenderComponents()
+        self[i]:Render() 
+        self[i]:RenderComponents()
     end
 end
 
-function AddGameObject(obj)
-    ObjectArray[#ObjectArray+1]=obj
+function ObjectArray:AddGameObject(obj)
+    self[#self+1]=obj
 end
 
-function RemoveGameObject(obj)
-    cnt = #ObjectArray
+function ObjectArray:RemoveGameObject(obj)
+    local cnt = #self
     for i = 1, cnt do
-        if ObjectArray[i] == obj then
-            table.remove(ObjectArray, i)
+        if self[i] == obj then
+            table.remove(self, i)
             return
         end
     end
 end
 
-function DeadGameObjects()
-    i, cnt = 1, #ObjectArray
+function ObjectArray:DeadGameObjects()
+    local i, cnt = 1, #self
     while i <= cnt and cnt > 0 do
-        if ObjectArray[i]:IsDead() then
-            table.remove(ObjectArray, i)
-            i -= 1
-            cnt -= 1
+        if self[i]:IsDead() then
+            table.remove(self, i)
+            i = i-1
+            cnt = cnt-1
         end
     end
 end
